@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-
+// Configure Google Sign In
 GoogleSignin.configure({
     webClientId: '589949345913-620ulcn99fiqa4khajmae496hohmcqg7.apps.googleusercontent.com',
   });
 
+// Author : Vincent Sanchez
+// Purpose : The purpose of this file currently is to allow the user to login with Google and then display their email address, This will later be used to associate a user with their calendar events
 export default function App() {
     //set an intializing state whilst Firebase connects
     const [initializing, setInitializing] = useState(true);
@@ -37,9 +39,10 @@ export default function App() {
         return auth().signInWithCredential(googleCredential);
       }
 
-
+    // If we are still initializing, show a loading screen
     if (initializing) return null;
 
+    //   If no user is currently logged in, show the login page
     if (!user) {
         return (
             <View style={styles.container}>
@@ -50,16 +53,18 @@ export default function App() {
         );
     }
 
-
+// if there is a user logged in, show the user's email address
     return (
         <View style={styles.container}>
         <Text style={styles.sectionTitle}>Full Stasis</Text>
         <Text>Welcome {user.email}</Text>
+        {/* If we have a user allow them to logout */}
+        <Button title="Sign Out" onPress={() => auth().signOut()} />
         </View>
     );
 
 }
-
+// the styles for the app
 const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 24,
