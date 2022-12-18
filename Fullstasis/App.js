@@ -9,6 +9,7 @@ GoogleSignin.configure({
 
 // Author : Vincent Sanchez
 // Purpose : The purpose of this file currently is to allow the user to login with Google and then display their email address, This will later be used to associate a user with their calendar events
+// To start application run "npx react-native run-android" in the terminal due to the use of react-native-firebase
 export default function App() {
     //set an intializing state whilst Firebase connects
     const [initializing, setInitializing] = useState(true);
