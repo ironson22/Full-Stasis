@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "589949345913",
+    "project_id": "full-stasis",
+    "storage_bucket": "full-stasis.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589949345913:android:f22b88aac843c9f4c734a8",
+        "android_client_info": {
+          "package_name": "com.fullstasis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589949345913-12p0e1im7lnllv5hmneg6nt8dh1q3lpf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fullstasis",
+            "certificate_hash": "ad3527a03f056f77fa4873c18f3e2b25c5640bbb"
+          }
+        },
+        {
+          "client_id": "589949345913-620ulcn99fiqa4khajmae496hohmcqg7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_YODDKZblf-JjqAdU_MOGcpxI2YR2yPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589949345913-620ulcn99fiqa4khajmae496hohmcqg7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
