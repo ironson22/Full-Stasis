@@ -1,82 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
-import auth from "@react-native-firebase/auth";
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-// Configure Google Sign In
-GoogleSignin.configure({
-    webClientId: '589949345913-620ulcn99fiqa4khajmae496hohmcqg7.apps.googleusercontent.com',
-  });
+import HomeScreen from "./android/app/src/screens/HomeScreen";
+import Login from "./android/app/src/screens/Login";
+import Settings from "./android/app/src/screens/Settings";
+import CreateAnEvent from "./android/app/src/screens/CreateAnEvent";
+import CalendarWeek from "./android/app/src/screens/CalendarWeek";
+import CalendarDay from "./android/app/src/screens/CalendarDay";
+import EditDelete from "./android/app/src/screens/EditDelete";
+import Register from "./android/app/src/screens/Register";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet } from "react-native";
 
-// Author : Vincent Sanchez
-// Purpose : The purpose of this file currently is to allow the user to login with Google and then display their email address, This will later be used to associate a user with their calendar events
-// To start application run "npx react-native run-android" in the terminal due to the use of react-native-firebase
+//Create a stack for us to use for navigation
+const Stack = createNativeStackNavigator();
+//In this section we are using React navigation to be able to add each of the pages to a stack that is being to for the button to navigate between
 export default function App() {
-    //set an intializing state whilst Firebase connects
-    const [initializing, setInitializing] = useState(true);
-    const [user, setUser] = useState();
-
-    //Handle user state changes
-    function onAuthStateChanged(user) {
-        setUser(user);
-        if (initializing) setInitializing(false);
-    }
-
-    useEffect(() => {
-        const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-        return subscriber; // unsubscribe on unmount
-    }, []);
-
-    //Create a function to handle the Google Sign In
-    onGoogleButtonPress = async () =>{
-        // Check if your device supports Google Play
-        await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-        // Get the users ID token
-        const { idToken } = await GoogleSignin.signIn();
-      
-        // Create a Google credential with the token
-        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      
-        // Sign-in the user with the credential
-        return auth().signInWithCredential(googleCredential);
-      }
-
-    // If we are still initializing, show a loading screen
-    if (initializing) return null;
-
-    //   If no user is currently logged in, show the login page
-    if (!user) {
-        return (
-            <View style={styles.container}>
-            <Text style={styles.sectionTitle}>Full Stasis</Text>
-            <Text>Login</Text>
-            <Button title="Google Sign-In" onPress={() => this.onGoogleButtonPress().then(() => console.log('Signed in with Google!'))} />
-            </View>
-        );
-    }
-
-// if there is a user logged in, show the user's email address
     return (
-        <View style={styles.container}>
-        <Text style={styles.sectionTitle}>Full Stasis</Text>
-        <Text>Welcome {user.email}</Text>
-        {/* If we have a user allow them to logout */}
-        <Button title="Sign Out" onPress={() => auth().signOut()} />
-        </View>
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Home" component={HomeScreen} options={{title: "Home"}}/>
+                <Stack.Screen name="Login" component={Login} options={{title: "Login"}}/>
+                <Stack.Screen name="Settings" component={Settings} options={{title: "User Settings"}}/>
+                <Stack.Screen name="CreateAnEvent" component={CreateAnEvent} options={{title: "Create an Event"}}/>
+                <Stack.Screen name="CalendarWeek" component={CalendarWeek} options={{title: "Week"}}/>
+                <Stack.Screen name="CalendarDay" component={CalendarDay} options={{title: "Daily"}}/>
+                <Stack.Screen name="EditDelete" component={EditDelete} options={{title: "Edit an Event"}}/>
+                <Stack.Screen name="Register" component={Register} options={{title: "Register a User"}}/>
+            </Stack.Navigator>
+        </NavigationContainer>
     );
-
 }
-// the styles for the app
+//These are styles that will be applied to this page
 const styles = StyleSheet.create({
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: "600"
-    },
     container: {
         flex: 1,
         backgroundColor: "lightblue",
         alignItems: "center",
         justifyContent: "center"
+    },
+    sectionTitle: {
+        fontSize: 24,
+        fontWeight: "600"
     }
 });
-
-
