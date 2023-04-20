@@ -63,10 +63,6 @@ export default tempData = [
                 title: "Buy Balloons",
                 completed: false
             },
-            {
-                title: "Send Invitations",
-                completed: false
-            }
         ]
     },
 ];

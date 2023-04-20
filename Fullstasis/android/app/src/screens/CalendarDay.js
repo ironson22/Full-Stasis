@@ -11,19 +11,40 @@ var curDate = new Date().getDay();
 export default class CalendarWeek extends React.Component {
     state = {
         addEventListVisible: false,
-         lists: TempData,
-        //lists: [],
+        //Sample Data(Uncomment this and comment firebase data to use the sample data file)
+        //lists: TempData,
+        //Firebase data(uncomment this and comment SampleData to use the firebase collection)
+        lists: [],
+        //User data
         user: {},
         loading: true
     }
-// This function is still in development as firebase implementation is still needed to be written
-    // componentDidMount() {
-    //         firebase.getLists(lists => {
-    //             this.setState({ lists}, () => {
-    //                 this.setState({ loading: false });
-    //             });
-    //         });
-    // }
+// This function is used for firebase data retrieval(comment out this function if using sample data)
+     componentDidMount() {
+        //This might be another way to do this action---
+        //let user = firebase.auth().currentUser;
+        //let ref = firebase.firestore().collection('users').doc(user.uid).collection("lists");
+        //this.unsubscribe = ref.onSnapshot(this.onCollectionUpdate);
+        // this.setState({ user: user, list: list, loading: false });
+
+        fire2 = new Fire((error, user) => {
+            if (error) {
+                return alert("Something went wrong");
+            }
+
+            //set state for both the list array and the user state
+        fire2.getLists(lists => {
+                this.setState({ lists, user}, () => {
+                    this.setState({loading: false}) 
+                });
+            }
+        )
+
+            //Set the user state to the user that is logged in
+            this.setState({ user });
+        });
+
+     }
     //This will set the state to show the pop up to be able to create a event list
     toggleAddEventListModal() {
         this.setState({ addEventListVisible: !this.state.addEventListVisible });
@@ -34,7 +55,7 @@ export default class CalendarWeek extends React.Component {
     }
     //This function will allow us to add a event event list list
     addList = list => {
-        this.setState({ list: [...this.state.lists, { ...list, id: this.state.list.length + 1, events: []}]})
+        this.setState({ lists: [...this.state.lists, { ...list, id: this.state.lists.length + 1, events: []}]})
     }
     //This function will allow us to update the list with the new event
     updateList = list => {
@@ -45,18 +66,31 @@ export default class CalendarWeek extends React.Component {
         )});
     }
     render(){
+        //Loading screen
+        if (this.state.loading) {
+            return(
+                <View style={styles.container}>
+                    <ActivityIndicator size="large" color={colors.blue} />
+                </View>
+            )
+        }
         return (
             <View style={styles.container}>
                 {/* This is the modal that will be used to create new list */}
                 <Modal animationType="slide" visible={this.state.addEventListVisible} onRequestClose={() => this.toggleAddEventListModal()}>
                     <AddEventsModal closeModal={() => this.toggleAddEventListModal()} addList={this.addList} />
                 </Modal>
+                {/* Testing code ____________________________________________________________________________ */}
+                
                 {/* This is the title of the page */}
                 <View style={{ flexDirection: "row"}}>
                     <View style={styles.divider} />
                     <Text style={styles.sectionTitle}>
                         Full<Text style={{ color: colors.blue}}>Stasis</Text>
                     </Text>
+                    <View>
+                    <Text style={{color: colors.black}}>User: {this.state.user.uid}</Text>
+                    </View>
                     <View style={styles.divider} />
                 </View>
                 {/* This is the button to be used to click to add event list to the page */}

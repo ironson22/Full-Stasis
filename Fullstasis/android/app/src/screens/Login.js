@@ -54,8 +54,10 @@ export default function Login( {navigation} ) {
         <View style={styles.container}>
         <Text style={styles.sectionTitle}>Welcome: {user.email}</Text>
         <Text style={styles.sectionTitle}>Uid:{user.uid}</Text>
-        {/* If we have a user allow them to go to CalendarDay */}
-        <Button style={styles.sectionButton} title="Daily Calendar" onPress={() => navigation.navigate("CalendarDay", user)} />
+        {/* If we have a user allow them to go to CalendarDay with user id*/}
+        {/* <Button style={styles.sectionButton} title="Daily Calendar" onPress={() => navigation.navigate("CalendarDay", user.uid)} /> */}
+        {/* Without user id being sent */}
+        <Button style={styles.sectionButton} title="Daily Calendar" onPress={() => navigation.navigate("CalendarDay")} />
         {/* If we have a user allow them to logout */}
         <Button style={styles.sectionButton} title="Sign Out" onPress={() => auth().signOut()} />
         </View>
