@@ -9,6 +9,10 @@ import Register from "./android/app/src/screens/Register";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet } from "react-native";
+import { LogBox } from "react-native";
+
+//This is only here for the capstone showcase remove after
+LogBox.ignoreAllLogs();
 
 //Create a stack for us to use for navigation
 const Stack = createNativeStackNavigator();

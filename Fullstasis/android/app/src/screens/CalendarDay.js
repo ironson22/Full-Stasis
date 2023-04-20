@@ -21,17 +21,11 @@ export default class CalendarWeek extends React.Component {
     }
 // This function is used for firebase data retrieval(comment out this function if using sample data)
      componentDidMount() {
-        //This might be another way to do this action---
-        //let user = firebase.auth().currentUser;
-        //let ref = firebase.firestore().collection('users').doc(user.uid).collection("lists");
-        //this.unsubscribe = ref.onSnapshot(this.onCollectionUpdate);
-        // this.setState({ user: user, list: list, loading: false });
-
+        //This is the firebase data retrieval
         fire2 = new Fire((error, user) => {
             if (error) {
-                return alert("Something went wrong");
+                //return alert("The user has been Signed Out.");
             }
-
             //set state for both the list array and the user state
         fire2.getLists(lists => {
                 this.setState({ lists, user}, () => {
@@ -39,12 +33,16 @@ export default class CalendarWeek extends React.Component {
                 });
             }
         )
-
             //Set the user state to the user that is logged in
             this.setState({ user });
         });
-
      }
+
+     //function to unsubscribe from firebase realtime
+    componentWillUnmount() {
+        fire2.unsubscribe();
+    }
+
     //This will set the state to show the pop up to be able to create a event list
     toggleAddEventListModal() {
         this.setState({ addEventListVisible: !this.state.addEventListVisible });
@@ -55,15 +53,21 @@ export default class CalendarWeek extends React.Component {
     }
     //This function will allow us to add a event event list list
     addList = list => {
-        this.setState({ lists: [...this.state.lists, { ...list, id: this.state.lists.length + 1, events: []}]})
+        //Code to user local
+        // this.setState({ lists: [...this.state.lists, { ...list, id: this.state.lists.length + 1, events: []}]})
+        //Code to use firebase
+        fire2.addList({name: list.name, color: list.color, events: []});
     }
     //This function will allow us to update the list with the new event
     updateList = list => {
-        this.setState({
-            lists: this.state.lists.map(item => {
-                return item.id === list.id ? list : item;
-            }
-        )});
+        //Code to use local
+        // this.setState({
+        //     lists: this.state.lists.map(item => {
+        //         return item.id === list.id ? list : item;
+        //     }
+        // )});\
+        //Code to use firebase
+        fire2.updateList(list);
     }
     render(){
         //Loading screen
@@ -79,18 +83,13 @@ export default class CalendarWeek extends React.Component {
                 {/* This is the modal that will be used to create new list */}
                 <Modal animationType="slide" visible={this.state.addEventListVisible} onRequestClose={() => this.toggleAddEventListModal()}>
                     <AddEventsModal closeModal={() => this.toggleAddEventListModal()} addList={this.addList} />
-                </Modal>
-                {/* Testing code ____________________________________________________________________________ */}
-                
+                </Modal>    
                 {/* This is the title of the page */}
                 <View style={{ flexDirection: "row"}}>
                     <View style={styles.divider} />
                     <Text style={styles.sectionTitle}>
                         Full<Text style={{ color: colors.blue}}>Stasis</Text>
                     </Text>
-                    <View>
-                    <Text style={{color: colors.black}}>User: {this.state.user.uid}</Text>
-                    </View>
                     <View style={styles.divider} />
                 </View>
                 {/* This is the button to be used to click to add event list to the page */}
@@ -106,7 +105,7 @@ export default class CalendarWeek extends React.Component {
                 <View style={{height: 275, paddingLeft: 32}}>
                     <FlatList
                         data={this.state.lists}
-                        keyExtractor={item => item.name}
+                        keyExtractor={item => item.id.toString()}
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         renderItem={({ item }) => this.renderList(item)}

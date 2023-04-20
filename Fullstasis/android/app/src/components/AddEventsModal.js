@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Button, TextInput } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import colors from '../../../../Colors';
-import TempData from '../../../../TempData';
 
 
 export default class AddEventsModal extends React.Component {

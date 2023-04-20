@@ -53,11 +53,12 @@ export default function Login( {navigation} ) {
     return (
         <View style={styles.container}>
         <Text style={styles.sectionTitle}>Welcome: {user.email}</Text>
-        <Text style={styles.sectionTitle}>Uid:{user.uid}</Text>
+        {/* Debugger Code to see if user id is found from Google Auth */}
+        {/* <Text style={styles.sectionTitle}>Uid:{user.uid}</Text> */}
         {/* If we have a user allow them to go to CalendarDay with user id*/}
         {/* <Button style={styles.sectionButton} title="Daily Calendar" onPress={() => navigation.navigate("CalendarDay", user.uid)} /> */}
         {/* Without user id being sent */}
-        <Button style={styles.sectionButton} title="Daily Calendar" onPress={() => navigation.navigate("CalendarDay")} />
+        <Button style={styles.sectionButton} title="Enter" onPress={() => navigation.navigate("CalendarDay")} />
         {/* If we have a user allow them to logout */}
         <Button style={styles.sectionButton} title="Sign Out" onPress={() => auth().signOut()} />
         </View>
@@ -66,9 +67,9 @@ export default function Login( {navigation} ) {
 //These are styles that will be applied to this page
 const styles = StyleSheet.create({
     sectionTitle: {
-        fontSize: 15,
+        fontSize: 25,
         fontWeight: "600",
-        paddingBottom: 20,
+        paddingBottom: 200,
         color: 'black',
         justifyContent: "center",
         paddingLeft: 50
@@ -76,8 +77,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.white,
-        //alignItems: "center",
-        justifyContent: "space-evenly"
+        justifyContent: "center",
     },
     loginTextInput: {
         borderWidth: .5,
@@ -87,6 +87,6 @@ const styles = StyleSheet.create({
     },
     sectionButton: {
         borderWidth: .5,
-        borderColor: 'gray',
+        borderColor: 'gray'
     }
 });

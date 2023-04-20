@@ -1,7 +1,8 @@
 import React from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Button, FlatList, KeyboardAvoidingView, TextInput, Keyboard } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Button, FlatList, KeyboardAvoidingView, TextInput, Keyboard, Animated } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import colors from '../../../../Colors';
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 // This function is used to show the list of task and the button and the way that the task can be modified
 export default class EventModal extends React.Component {
     // this state is used to keep track of the new task that is being added
@@ -17,14 +18,26 @@ export default class EventModal extends React.Component {
     // This function is used to add a new task to the list
     addEvent = () => {
         let list = this.props.list;
-        list.events.push({title: this.state.newEvent, completed: false});
-        this.props.updateList(list);
+
+        if(!list.events.some(event => event.title === this.state.newEvent)){
+            list.events.push({title: this.state.newEvent, completed: false});
+            this.props.updateList(list);
+        }
         this.setState({newEvent: ""});
         Keyboard.dismiss();
     }
+
+    deleteEvent = index => {
+        let list = this.props.list;
+        list.events.splice(index, 1);
+        this.props.updateList(list);
+    }
+
     // This function is used to render the task with special css that will change the item based off if the event is marked completed or not
     renderEvent = (event, index) => {
         return (
+        <GestureHandlerRootView>
+        <Swipeable renderRightActions={(_, dragX) => this.rightActions(dragX, index)}>
         <View style={styles.eventContainer}>
             <TouchableOpacity>
             {/* Create a sqaure using a button */}
@@ -40,8 +53,33 @@ export default class EventModal extends React.Component {
             </TouchableOpacity>
             <Text style={[styles.event, {textDecorationLine: event.completed ? "line-through" : "none", color: event.completed ? colors.gray : colors.black}]}>{event.title}</Text>
         </View>
+        </Swipeable>
+        </GestureHandlerRootView>
         )
     }
+
+    rightActions = (dragX, index) => {
+        const scale = dragX.interpolate({
+            inputRange: [-100, 0],
+            outputRange: [1, 0],
+            extrapolate: 'clamp'
+        });
+
+        const opacity = dragX.interpolate({
+            inputRange: [-100, -20, 0],
+            outputRange: [1, 0.5, 0],
+            extrapolate: 'clamp'
+        })
+
+        return (
+            <TouchableOpacity onPress={() => this.deleteEvent(index)}>
+                <Animated.View style={[styles.deleteButton, { opacity: opacity} ]}>
+                    <Animated.Text style={{color: colors.white, fontWeight: "800", transform: [{ scale }] }}>Delete</Animated.Text>
+                </Animated.View>
+            </TouchableOpacity>
+        )
+    }
+
     // This render function hold all of the function of code that are used to create buttons, text and the exit button
   render() {
     //These are the variables that are used to keep track of the list and the amount of task that are completed and the amount of task that are left
@@ -71,12 +109,11 @@ export default class EventModal extends React.Component {
             </View>
         </View>
         {/* This is the section that will be used to display the list of task */}
-        <View style={[styles.section, {flex: 3}]}>
+        <View style={[styles.section, {flex: 3, marginVertical: 16}]}>
             <FlatList
                 data={list.events}
                 renderItem={({ item, index }) => this.renderEvent(item, index)}
                 keyExtractor={item => item.title}
-                contentContainerStyle={{ paddingHorizontal: 32, paddingVertical: 64 }}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="always"
             />
@@ -104,13 +141,13 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     section: {
-        flex: 1,
         alignSelf: "stretch"
     },
     header: {
         justifyContent: "flex-end",
         marginLeft: 64,
-        borderBottomWidth: 3
+        borderBottomWidth: 3,
+        paddingTop: 30
     },
     title: {
         fontSize: 30,
@@ -126,7 +163,8 @@ const styles = StyleSheet.create({
     footer: {
         paddingHorizontal: 32,
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        paddingVertical: 20
     },
     input: {
         flex: 1,
@@ -146,12 +184,20 @@ const styles = StyleSheet.create({
     eventContainer: {
         paddingVertical: 16,
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        paddingLeft: 32
     },
     event: {
         color: colors.black,
         fontWeight: "700",
         fontSize: 16,
         marginLeft: 16,
+    },
+    deleteButton: {
+        backgroundColor: colors.red,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        width: 90
     }
 });
