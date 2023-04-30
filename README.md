@@ -91,13 +91,17 @@ What are some of the things you had to start with?
 I first started with some guides on Udemy to begin to get familar with React Native as well as State management using useState and setState. I then proceeded to use YouTube and the documentation on React Native Firebase to learn how to use Firebase database. This was in order to store user task based on their unique Google Id.
 
 I then began working on a UI Desgin which is as follows:
+
 ![CST- 452 UI Design](https://user-images.githubusercontent.com/5006228/235368397-e1d94059-e05e-4677-8070-9278f1293968.jpg)
 
 As well as a sitemap for how the pages will lead into each other:
+
 ![CST - 452-Sitemap](https://user-images.githubusercontent.com/5006228/235368362-2cbb789f-041b-4d7f-a4c6-aebd7451b8ae.jpeg)
 
 After the sitemap was completed, I needed to understand how the data would be moved as the user signed in and view their task so I made a flowchart:
+
 ![CST-451 Flow Chart](https://user-images.githubusercontent.com/5006228/235368427-a14c6091-c39e-4255-9514-0717e35657c9.jpg)
+
 ## What risks and challenges did you have?
 The risk that this project had was that I did not know or have worked with either of the mobile framework React Native or the Google cloud service Firebase. I was in new unfamiliar territory when starting this project. I also had never worked with an Android emulator and was unsure of how to configure it at first as well (i.e screen dimensions, Android version).
 
