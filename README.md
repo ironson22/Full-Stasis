@@ -42,7 +42,7 @@ Low Level Function:
 
 Each page must load within 5 Seconds
 
-An error page must be show if there was an error
+An error page must be shown if there was an error
 
 User must be able to login with a Google Account
 ## Project Demo
