@@ -1,7 +1,7 @@
 
 # Full Stasis
 
-"Full Stasis" is a mobile application that is focus on making it easier to plan ones life while focusing on the battle of burnout, This application uses color coordination to sort and organize ones daily events. This included unmovable, Tentative and balance events. This application was built using React Native Firebase which is a custom library that combines the power of React Native with the tools and service of Firebase
+"Full Stasis" is a mobile application that is focused on making it easier to plan ones life while targeting the battle of burnout, This application uses color coordination to sort and organize ones daily events. This included unmovable, tentative and personal events. This application was built using React Native Firebase which is a custom library that combines the power of React Native with the tools and service of Firebase
 
 
 
